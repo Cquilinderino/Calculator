@@ -1,18 +1,54 @@
-function add(...args) {
-  console.log(args);
+let num1 = ''; //queryselect num buttons
+let num2 = '';
+let operator = ""; //queryselect operator buttons
+
+let displayedNumber = 0;
+let result = null;
+
+function operate() {
+  switch (operator) {
+    case '+':
+      add(num1, num2);
+      break;
+    case '-':
+      subtract(num1, num2);
+    case 'X':
+      multiply(num1, num2);
+    case '/':
+      divide(num1, num2);
+    case '%':
+      modulo(num1, num2);
+    case 'C':
+      clear();
+    case 'AC':
+      allClear();
+    case '=':
+      equals(num1, num2)
+  }
 }
 
-function subtract() {
-
+function add(firstNum, secondNum) {
+  result = firstNum + secondNum;
 }
 
-function multiply() {
-
+function subtract(firstNum, secondNum) {
+  result = displayedNumber = firstNum - secondNum;
 }
 
-function divide() {
-
+function multiply(firstNum, secondNum) {
+  result = displayedNumber = firstNum * secondNum;
 }
+
+function divide(firstNum, secondNum) {
+  result = displayedNumber = firstNum / secondNum;
+}
+
+function modulo(firstNum, secondNum) {
+  result = displayedNumber = firstNum % secondNum;
+}
+
+//=================================//
+
 
 const display = document.querySelector('#display');
 
@@ -28,7 +64,7 @@ buttons.forEach((button) =>
     command(text);
   }));
 
-let runningNum = 0;
+let runningNum = '';
 
 function command(clicked) {
   if(clicked === '+') {
@@ -39,8 +75,11 @@ function command(clicked) {
     multiply(runningNum);
   } else if(clicked ==='/') {
     divide(runningNum);
+  } else if(clicked ==='C' || clicked === 'AC') {
+    runningNum = '';
+    display.innerText = 0;
   } else {
-    display.innerText = clicked;
-    runningNum = clicked;
+    runningNum += clicked;
+    display.innerText = runningNum;
   }
 }
