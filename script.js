@@ -1,62 +1,18 @@
-let num1 = ''; //queryselect num buttons
-let num2 = '';
-let operator = ""; //queryselect operator buttons
-
-let displayedNumber = 0;
-let result = null;
-
-function operate() {
-  switch (operator) {
-    case '+':
-      add(num1, num2);
-      break;
-    case '-':
-      subtract(num1, num2);
-    case 'X':
-      multiply(num1, num2);
-    case '/':
-      divide(num1, num2);
-    case '%':
-      modulo(num1, num2);
-    case 'C':
-      clear();
-    case 'AC':
-      allClear();
-    case '=':
-      equals(num1, num2)
-  }
-}
-
-function add(firstNum, secondNum) {
-  result = firstNum + secondNum;
-  display.innerText = result;
-}
-
-function subtract(firstNum, secondNum) {
-  result = displayedNumber = firstNum - secondNum;
-}
-
-function multiply(firstNum, secondNum) {
-  result = displayedNumber = firstNum * secondNum;
-}
-
-function divide(firstNum, secondNum) {
-  result = displayedNumber = firstNum / secondNum;
-}
-
-function modulo(firstNum, secondNum) {
-  result = displayedNumber = firstNum % secondNum;
-}
-
-//=================================//
-
-
+// On number press
 const display = document.querySelector('#display');
 
-
-
-const buttons = document.querySelectorAll('button');
+const buttons = document.querySelectorAll('.num');
 buttons.forEach((button) => 
+  // button.addEventListener('click', () => {
+  //   display.textContent = button.innerText;
+  // }));
+  button.addEventListener('click', () => {
+    let text = button.innerText;
+    displayNum(text);
+  }));
+
+const buttons2 = document.querySelectorAll('.func');
+buttons2.forEach((button) => 
   // button.addEventListener('click', () => {
   //   display.textContent = button.innerText;
   // }));
@@ -67,30 +23,107 @@ buttons.forEach((button) =>
 
 let runningNum = '';
 
-function command(clicked) {
-  if(clicked === '+') {
-    runningNum = (parseInt(display.innerText));
-    num1 = runningNum;
-    if (num1 !== '') {
-      num2 = runningNum;
-      add(num1, num2);
-    } else {
-      command;
-    }
-    runningNum ='';
-  
-    
-  } else if(clicked === '-'){
-    subtract(runningNum);
-  } else if(clicked ==='X'){
-    multiply(runningNum);
-  } else if(clicked ==='/') {
-    divide(runningNum);
-  } else if(clicked ==='C' || clicked === 'AC') {
+function displayNum(number) {
+  // runningNum = parseInt(display.innerText);
+  runningNum += number;
+  display.innerText = runningNum;
+}
+
+function command(symbol) {
+  if(symbol === '+') {
+    add();
+  }
+  if(symbol === '-') {
+    subtract();
+  }
+  if(symbol === 'X') {
+    multiply();
+  }
+  if(symbol === '=') {
+    sum();
+  }
+  if(symbol === '/') {
+    divide();
+  }
+  if(symbol === '%') {
+    modulo();
+  }
+  if(symbol === "C" || symbol === "AC") {
     runningNum = '';
+    num1 ='';
+    num2='';
     display.innerText = 0;
-  } else {
-    runningNum += clicked;
-    display.innerText = runningNum;
   }
 }
+
+let num1 = '';
+let num2 = '';
+let operator = '';
+
+function add() {
+  operator = '+';
+
+  if(num1 !== '') {
+    num2 = parseInt(display.innerText);
+    let result = num1 + num2;
+    display.innerText = result;
+  }
+  num1 = parseInt(runningNum);
+  runningNum = '';
+}
+
+function subtract() {
+  operator = '-';
+
+  if(num1 !== '') {
+    num2 = parseInt(display.innerText);
+    let result = num1 - num2;
+    display.innerText = result;
+  }
+  num1 = parseInt(runningNum);
+  runningNum = '';
+}
+
+function multiply() {
+  operator = 'X';
+
+  if(num1 !== '') {
+    num2 = parseInt(display.innerText);
+    let result = num1 * num2;
+    display.innerText = result;
+  }
+  num1 = parseInt(runningNum);
+  runningNum = '';
+}
+
+function sum() {
+  num2 = parrse
+}
+
+
+
+function divide() {
+  operator = '/';
+
+  if(num1 !== '') {
+    num2 = parseInt(display.innerText);
+    let result = num1 / num2;
+    display.innerText = result;
+  }
+  num1 = parseInt(runningNum);
+  runningNum = '';
+}
+
+function modulo() {
+  operator = '%';
+
+  if(num1 !== '') {
+    num2 = parseInt(display.innerText);
+    let result = num1 % num2;
+    display.innerText = result;
+  }
+  num1 = parseInt(runningNum);
+  runningNum = '';
+}
+
+//==============================================================================
