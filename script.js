@@ -29,6 +29,7 @@ function operate() {
 
 function add(firstNum, secondNum) {
   result = firstNum + secondNum;
+  display.innerText = result;
 }
 
 function subtract(firstNum, secondNum) {
@@ -68,7 +69,17 @@ let runningNum = '';
 
 function command(clicked) {
   if(clicked === '+') {
-    add(runningNum);
+    runningNum = (parseInt(display.innerText));
+    num1 = runningNum;
+    if (num1 !== '') {
+      num2 = runningNum;
+      add(num1, num2);
+    } else {
+      command;
+    }
+    runningNum ='';
+  
+    
   } else if(clicked === '-'){
     subtract(runningNum);
   } else if(clicked ==='X'){
