@@ -1,81 +1,81 @@
-let num = '0';
-let operator;
 let runningTotal = 0;
+let buffer = '0';
+let previousOperator;
 
-function symbol(symbol1) {
-  if (symbol1 === 'C' || symbol1 === 'AC') {
-    num = '0'
-    display.innerText = num;
-  } else if(symbol1 === '='){
-    if (lastOperator === null) {
-      return
-    }
-    operate(parseInt(num));
-    lastOperator = null;
-    num = runningTotal;
-    runningTotal = 0;
-  } else if(symbol1 === '+' ||
-            symbol1 === '-' ||
-            symbol1 === 'X' ||
-            symbol1 === '/' ||
-            symbol1 === '%')  {
-      math();
-    }
+const display = document.querySelector('#display');
+
+function buttonClick(value) {
+  if(isNaN(value)) {
+    handleSymbol(value);
+  } else {
+    handleNumber(value);
+  }
+  display.innerText = buffer;
 }
 
-function number(number1) {
-  if(num === '0') {
-    num = number1;
-  } else {
-    num += number1;
+function handleSymbol(symbol) {
+  switch(symbol) {
+    case 'C':
+    case 'AC':
+      buffer = '0';
+      runningTotal = 0;
+      break;
+    case '=':
+      if(previousOperator === null) {
+        return
+      }
+      flushOperation(parseInt(buffer));
+      previousOperator = null;
+      buffer = runningTotal;
+      runningTotal = 0;
+      break;
+    case '+':
+    case '-':
+    case 'X':
+    case '/':
+    case '%':
+      handleMath(symbol);
+      break;
   }
 }
 
-function buttonClick(symbol1) {
-  if (isNaN(symbol1)) {
-    symbol(symbol1);
-  } else {
-    number(symbol1);
-  }
-  display.innerText = num;
-}
-
-
-let lastOperator;
-
-function math(operator) {
-  if (num ==='0') {
+function handleMath(symbol) {
+  if(buffer === '0') {
     return;
   }
 
-  const num1 = parseInt(num);
+  const intBuffer = parseInt(buffer);
 
   if(runningTotal === 0) {
-    runningTotal = num1;
+    runningTotal = intBuffer;
   } else {
-    operate(num);
+    flushOperation(intBuffer);
   }
-  lastOperator = operator;
-  num = '0';
-} 
+  previousOperator = symbol;
+  buffer = '0';
+}
 
-
-function operate(num) {
-  if(lastOperator === '+'){
-    runningTotal += num;
-  } else if(lastOperator === '-') {
-    runningTotal -= num;
-  } else if(lastOperator === 'X') {
-    runningTotal *= num;
-  } else if(lastOperator === '/') {
-    runningTotal /= num;
-  } else if(lastOperator === '%') {
-    runningTotal %= num;
+function flushOperation(intBuffer) {
+  if (previousOperator === '+') {
+    runningTotal += intBuffer;
+  } else if ( previousOperator === '-') {
+    runningTotal -+ intBuffer;
+  } else if (previousOperator === 'X') {
+    runningTotal *= intBuffer;
+  } else if (previousOperator === '/') {
+    runningTotal /= intBuffer;
+  } else if (previousOperator === '%') {
+    runningTotal %= intBuffer;
   }
 }
 
-
-const display = document.querySelector('#display');
+function handleNumber(numberString) {
+  if (buffer === '0') {
+    buffer = numberString;
+  } else {
+    buffer += numberString;
+  }
+}
 
 function init() {
   const buttons = document.querySelectorAll('.num');
